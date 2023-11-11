@@ -36,7 +36,7 @@ def main():
     # Account creation
     st.sidebar.header("Create Account")
     new_username = st.sidebar.text_input("New Username")
-    new_password = st.sidebar.text_area("New Password", type="password", key="new_password")
+    new_password = st.sidebar.text_input("New Password", type="password", key="new_password")
 
     if st.sidebar.button("Create Account"):
         create_account(new_username, new_password)
@@ -45,7 +45,7 @@ def main():
     # Login
     st.sidebar.header("Login")
     username = st.sidebar.text_input("Username")
-    password = st.sidebar.text_area("Password", type="password")
+    password = st.sidebar.text_input("Password", type="password")
 
     login_attempted = st.sidebar.button("Login")
     if login_attempted:
