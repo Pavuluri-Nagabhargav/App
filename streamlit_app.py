@@ -56,13 +56,6 @@ def save_survey_response(data):
 def welcome_screen():
     st.title("Welcome to Lung Assist Respiratory Survey")
     
-    # Add background image and a brief description
-    background_image_url = "https://images.theconversation.com/files/485402/original/file-20220919-12-mtp5y0.jpg?ixlib=rb-1.1.0&rect=0%2C0%2C2944%2C2036&q=45&auto=format&w=926&fit=clip"
-    st.markdown(
-        f'<style>body{{background-image: url("{background_image_url}");background-size: cover;}}</style>',
-        unsafe_allow_html=True
-    )
-    
     st.markdown("""
         This survey is designed to gather information about your respiratory health.
         Your participation is important for research and to enhance respiratory care.
@@ -76,16 +69,16 @@ def welcome_screen():
 def main():
     st.title("Respiratory Health Survey")
 
-    # ... (rest of your survey code)
+    # Full Name and Phone Number
+    full_name = st.text_input("Full Name:")
+    phone_number = st.text_input("Phone Number:")
 
     # Save Survey Response
     if st.button("Submit Survey"):
         survey_data = {
             "full_name": full_name,
             "phone_number": phone_number,
-            "shortness_of_breath": shortness_of_breath,
-            "physical_activity": physical_activity,
-            # ... (rest of your data)
+            # ... (add more survey questions)
         }
 
         save_survey_response(survey_data)
