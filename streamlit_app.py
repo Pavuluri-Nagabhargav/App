@@ -16,32 +16,7 @@ def save_survey_response(data):
         "phone_number": data["phone_number"],
         "shortness_of_breath": data.get("shortness_of_breath", False),
         "physical_activity": data.get("physical_activity", False),
-        "persistent_cough": data.get("persistent_cough", False),
-        "cough_type": data.get("cough_type", ""),
-        "mucus_production": data.get("mucus_production", False),
-        "mucus_color": data.get("mucus_color", ""),
-        "mucus_consistency": data.get("mucus_consistency", ""),
-        "respiratory_infections": data.get("respiratory_infections", False),
-        "chest_symptoms": data.get("chest_symptoms", False),
-        "smoked_before": data.get("smoked_before", False),
-        "smoking_duration": data.get("smoking_duration", 0),
-        "cigarettes_per_day": data.get("cigarettes_per_day", 0),
-        "former_smoker": data.get("former_smoker", False),
-        "quit_date": str(data.get("quit_date", "")),
-        "secondhand_smoke": data.get("secondhand_smoke", False),
-        "workplace_exposure": data.get("workplace_exposure", False),
-        "air_pollution": data.get("air_pollution", False),
-        "family_history": data.get("family_history", False),
-        "daily_activities": data.get("daily_activities", ""),
-        "regular_activities": data.get("regular_activities", False),
-        "weight_loss_weakness": data.get("weight_loss_weakness", False),
-        "lung_problems": data.get("lung_problems", False),
-        "other_health_conditions": data.get("other_health_conditions", ""),
-        "current_medications": data.get("current_medications", ""),
-        "treatments_surgeries": data.get("treatments_surgeries", ""),
-        "symptom_onset_date": str(data.get("symptom_onset_date", "")),
-        "symptom_progression": data.get("symptom_progression", False),
-        "respiratory_allergies": data.get("respiratory_allergies", "")
+        # ... (rest of your data)
     }
 
     phone_number = data["phone_number"]
@@ -56,7 +31,7 @@ def save_survey_response(data):
     relevant_data["patient_id"] = patient_id
 
     # Assuming you have a URL where you want to send the survey responses
-    post_url = "https://lungassist-user.streamlit.app/{patient_id}/submit_survey"
+    post_url = f"https://lungassist-user.streamlit.app/{patient_id}/submit_survey"
     response = requests.post(post_url, json=relevant_data)
 
     if response.status_code == 200:
@@ -72,103 +47,36 @@ def save_survey_response(data):
                 st.error("Invalid JSON response: The response is not a JSON object.")
                 st.text(response.text)  # Display the raw response for further analysis
         except ValueError as e:
-            #st.error(f"Error decoding JSON response: {e}")
+            st.error(f"Error decoding JSON response: {e}")
             st.text(response.text)  # Display the raw response for further analysis
     else:
         st.error(f"Failed to submit survey. Status Code: {response.status_code}")
         st.text(response.text)  # Display the raw response for further analysis
 
+def welcome_screen():
+    st.title("Welcome to Lung Assist Respiratory Survey")
+    
+    # Add background image and a brief description
+    background_image_url = "https://images.theconversation.com/files/485402/original/file-20220919-12-mtp5y0.jpg?ixlib=rb-1.1.0&rect=0%2C0%2C2944%2C2036&q=45&auto=format&w=926&fit=clip"
+    st.markdown(
+        f'<style>body{{background-image: url("{background_image_url}");background-size: cover;}}</style>',
+        unsafe_allow_html=True
+    )
+    
+    st.markdown("""
+        This survey is designed to gather information about your respiratory health.
+        Your participation is important for research and to enhance respiratory care.
+        Please click the "Next" button to proceed to the survey.
+    """)
+    
+    if st.button("Next"):
+        st.empty()  # Clear the screen
+        main()
 
 def main():
     st.title("Respiratory Health Survey")
 
-    # Add background image
-    background_image_url = "https://images.theconversation.com/files/485402/original/file-20220919-12-mtp5y0.jpg?ixlib=rb-1.1.0&rect=0%2C0%2C2944%2C2036&q=45&auto=format&w=926&fit=clip"
-    st.markdown(
-        f'<style>body{{background-image: url("{background_image_url}");background-size: cover;}}</style>',
-        unsafe_allow_html=True
-    )
-
-    # Add background image
-    background_image_url = "https://images.theconversation.com/files/485402/original/file-20220919-12-mtp5y0.jpg?ixlib=rb-1.1.0&rect=0%2C0%2C2944%2C2036&q=45&auto=format&w=926&fit=clip"
-    st.markdown(
-        f'<style>body{{background-image: url("{background_image_url}");background-size: cover;}}</style>',
-        unsafe_allow_html=True
-    )
-
-  # Full Name and Phone Number
-    st.header("Personal Information")
-    full_name = st.text_input("Full Name:")
-    phone_number = st.text_input("Phone Number:")
-
-  # Symptom-Related Questions
-    st.header("Symptom-Related Questions")
-    shortness_of_breath = st.checkbox("Have you been experiencing shortness of breath?")
-    physical_activity = False  # Initialize to False
-    if shortness_of_breath:
-        physical_activity = st.checkbox("Does it occur or worsen with physical activity?")
-
-    persistent_cough = st.checkbox("Do you have a persistent cough?")
-    cough_type = ""  # Initialize to an empty string
-    mucus_production = False  # Initialize to False
-    mucus_color = ""  # Initialize to an empty string
-    mucus_consistency = ""  # Initialize to an empty string
-    if persistent_cough:
-        cough_type = st.radio("Is it dry or productive (producing mucus)?", ["Dry", "Productive"])
-        if cough_type == "Productive":
-          mucus_production = st.checkbox("Have you noticed an increase in mucus production?")
-          if mucus_production:
-            mucus_color = st.text_input("What is the color of the mucus?")
-            mucus_consistency = st.text_input("What is the consistency of the mucus?")
-
-    respiratory_infections = st.checkbox("Are you experiencing frequent respiratory infections?")
-    chest_symptoms = st.checkbox("Do you have wheezing or chest tightness?")
-
-    st.header("History of Smoking")
-    smoked_before = st.checkbox("Have you ever smoked?")
-    smoking_duration = 0  # Initialize to 0
-    cigarettes_per_day = 0  # Initialize to 0
-    former_smoker = False  # Initialize to False
-    quit_date = ""  # Initialize to an empty string
-    secondhand_smoke = False  # Initialize to False
-    if smoked_before:
-        smoking_duration = st.number_input("For how long did you smoke? (in years)")
-        cigarettes_per_day = st.number_input("How many cigarettes per day did you smoke?")
-        former_smoker = st.checkbox("Are you a former smoker?")
-        if former_smoker:
-            quit_date = st.date_input("When did you quit smoking?")
-
-        secondhand_smoke = st.checkbox("Are you exposed to secondhand smoke?")
-
-    
-    # Family History
-    st.header("Family History")
-    family_history = st.checkbox("Is there a history of COPD or other chronic respiratory diseases in your family?")
-
-    # Lifestyle and Daily Impact
-    st.header("Lifestyle and Daily Impact")
-    daily_activities = st.text_area("How do your symptoms affect your daily activities and quality of life?")
-    regular_activities = st.checkbox("Are you able to perform regular activities without becoming short of breath?")
-    weight_loss_weakness = st.checkbox("Have you noticed any weight loss or muscle weakness?")
-
-    # Previous Health Issues
-    st.header("Previous Health Issues")
-    lung_problems = st.checkbox("Have you had any previous lung problems, such as asthma, bronchitis, or pneumonia?")
-    other_health_conditions = st.text_area("Do you have any other health conditions, especially heart disease or hypertension?")
-
-    # Medication and Treatment History
-    st.header("Medication and Treatment History")
-    current_medications = st.text_area("Are you currently taking any medications, including inhalers or other treatments for breathing problems?")
-    treatments_surgeries = st.text_area("Have you undergone any treatments or surgeries that might affect your lungs?")
-
-    # Symptom Onset and Progression
-    st.header("Symptom Onset and Progression")
-    symptom_onset_date = st.date_input("When did you first notice your symptoms?")
-    symptom_progression = st.checkbox("Have your symptoms been getting worse over time?")
-
-    # Allergies
-    st.header("Allergies")
-    respiratory_allergies = st.text_area("Do you have any allergies that might affect your respiratory system?")
+    # ... (rest of your survey code)
 
     # Save Survey Response
     if st.button("Submit Survey"):
@@ -177,36 +85,16 @@ def main():
             "phone_number": phone_number,
             "shortness_of_breath": shortness_of_breath,
             "physical_activity": physical_activity,
-            "persistent_cough": persistent_cough,
-            "cough_type": cough_type,
-            "mucus_production": mucus_production,
-            "mucus_color": mucus_color,
-            "mucus_consistency": mucus_consistency,
-            "respiratory_infections": respiratory_infections,
-            "chest_symptoms": chest_symptoms,
-            "smoked_before": smoked_before,
-            "smoking_duration": smoking_duration,
-            "cigarettes_per_day": cigarettes_per_day,
-            "former_smoker": former_smoker,
-            "quit_date": quit_date,
-            "secondhand_smoke": secondhand_smoke,
-            "workplace_exposure": workplace_exposure,
-            "air_pollution": air_pollution,
-            "family_history": family_history,
-            "daily_activities": daily_activities,
-            "regular_activities": regular_activities,
-            "weight_loss_weakness": weight_loss_weakness,
-            "lung_problems": lung_problems,
-            "other_health_conditions": other_health_conditions,
-            "current_medications": current_medications,
-            "treatments_surgeries": treatments_surgeries,
-            "symptom_onset_date": symptom_onset_date,
-            "symptom_progression": symptom_progression,
-            "respiratory_allergies": respiratory_allergies
+            # ... (rest of your data)
         }
 
         save_survey_response(survey_data)
 
+        # Clear the screen and show success message
+        st.success("Your respiratory survey has been successfully updated. Thank you!")
+
+def run_survey():
+    welcome_screen()
+
 if __name__ == "__main__":
-    main()
-           
+    run_survey()
