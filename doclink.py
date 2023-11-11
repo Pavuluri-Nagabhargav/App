@@ -3,7 +3,7 @@ from typing import Dict, Any
 
 # Mock database to store patient details
 patients_db: Dict[str, Dict[str, Any]] = {
-    "8888888888": {
+    "0001": {
         "full_name": "Sai",
         "phone_number": "8888888888",
         "shortness_of_breath": True,
@@ -15,7 +15,7 @@ patients_db: Dict[str, Dict[str, Any]] = {
         "mucus_consistency": "Thick",
         # ... (include other survey details)
     },
-    "9999999999": {
+    "0002": {
         "full_name": "Bhargav",
         "phone_number": "9999999999",
         "shortness_of_breath": False,
