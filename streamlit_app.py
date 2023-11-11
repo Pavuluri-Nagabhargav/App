@@ -72,7 +72,7 @@ def save_survey_response(data):
             st.text(response.text)  # Display the raw response for further analysis
     else:
         st.error(f"Failed to submit survey. Status Code: {response.status_code}")
-        st.text(response.text)  # Display the raw response for further analysis
+        st.text(response.text)
 
 def main():
     st.title("Respiratory Health Survey")
@@ -165,7 +165,40 @@ def main():
 
     # Save Survey Response
     if st.button("Submit Survey"):
-        response = save_survey_response(locals())
+        survey_data = {
+            "full_name": full_name,
+            "phone_number": phone_number,
+            "shortness_of_breath": shortness_of_breath,
+            "physical_activity": physical_activity,
+            "persistent_cough": persistent_cough,
+            "cough_type": cough_type,
+            "mucus_production": mucus_production,
+            "mucus_color": mucus_color,
+            "mucus_consistency": mucus_consistency,
+            "respiratory_infections": respiratory_infections,
+            "chest_symptoms": chest_symptoms,
+            "smoked_before": smoked_before,
+            "smoking_duration": smoking_duration,
+            "cigarettes_per_day": cigarettes_per_day,
+            "former_smoker": former_smoker,
+            "quit_date": quit_date,
+            "secondhand_smoke": secondhand_smoke,
+            "workplace_exposure": workplace_exposure,
+            "air_pollution": air_pollution,
+            "family_history": family_history,
+            "daily_activities": daily_activities,
+            "regular_activities": regular_activities,
+            "weight_loss_weakness": weight_loss_weakness,
+            "lung_problems": lung_problems,
+            "other_health_conditions": other_health_conditions,
+            "current_medications": current_medications,
+            "treatments_surgeries": treatments_surgeries,
+            "symptom_onset_date": symptom_onset_date,
+            "symptom_progression": symptom_progression,
+            "respiratory_allergies": respiratory_allergies
+        }
+
+        save_survey_response(survey_data)
 
 if __name__ == "__main__":
     main()
