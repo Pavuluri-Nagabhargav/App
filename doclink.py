@@ -3,10 +3,19 @@ import requests
 import hashlib
 
 # Dictionary to store user credentials
-user_credentials = {}
+user_credentials = {"admin": "password"}  # Add more users if needed
 
 # Dictionary to store the mapping between phone numbers and patient IDs
 phone_number_to_patient_id = {}
+
+# Sample survey data for testing
+sample_survey_data = {
+    "full_name": "John Doe",
+    "phone_number": "1234567890",
+    "shortness_of_breath": True,
+    "persistent_cough": False,
+    # Add more survey data...
+}
 
 def generate_patient_id(phone_number):
     # Use a hash function to generate a unique patient ID based on the phone number
@@ -15,15 +24,23 @@ def generate_patient_id(phone_number):
 
 def authenticate(username, password):
     # Fixed login credentials (admin/password)
-    return username == "admin" and password == "password"
+    return user_credentials.get(username) == password
 
 def fetch_survey_data(patient_id):
     # Placeholder for fetching detailed survey data based on patient ID
-    # You need to implement this method to fetch data from your server
-    api_url = f"https://lungassist-user.streamlit.app/{patient_id}/submit_surve"  # Replace with the actual API endpoint
-    response = requests.get(api_url)
-    detailed_data = response.json() if response.status_code == 200 else {}
-    return detailed_data
+    # For testing purposes, return sample_survey_data
+    return sample_survey_data
+
+def recommendation(survey_data):
+    # Placeholder logic for generating a recommendation
+    # Customize this based on your actual recommendation criteria
+    yes_count = sum(value for key, value in survey_data.items() if isinstance(value, bool) and value)
+    total_questions = sum(isinstance(value, bool) for value in survey_data.values())
+
+    if yes_count / total_questions > 0.5:
+        return "Need further respiratory tests"
+    else:
+        return "Consider for general medication"
 
 def main():
     st.title("Respiratory Health Survey")
@@ -46,12 +63,14 @@ def main():
         st.warning("Please log in to access the survey reports.")
         return
 
-    # Survey form goes here...
-    # ...
+    # Display patient reports folder
+    st.header("Patient Reports Folder")
+    for patient_id, name in phone_number_to_patient_id.items():
+        st.write(f"Patient ID: {patient_id}, Name: {name}")
 
     # View Survey Reports
     st.sidebar.subheader("Survey Reports")
-    selected_id = st.sidebar.selectbox("Select Patient ID", list(phone_number_to_patient_id.values()))
+    selected_id = st.sidebar.selectbox("Select Patient ID", list(phone_number_to_patient_id.keys()))
     if selected_id:
         # Retrieve and display detailed survey data based on the selected patient ID
         detailed_data = fetch_survey_data(selected_id)
@@ -59,13 +78,15 @@ def main():
         st.write(f"Name: {detailed_data.get('full_name', 'N/A')}")
         st.write(f"Phone Number: {detailed_data.get('phone_number', 'N/A')}")
         st.write(f"Patient ID: {selected_id}")
-        # Display other survey details...
 
-        # Check important questions and provide recommendation
-        if detailed_data.get('shortness_of_breath', False) or detailed_data.get('persistent_cough', False):
-            st.warning("Patient requires further diagnostic tests.")
-        else:
-            st.success("Patient might need general medication.")
+        # Display other survey details...
+        for key, value in detailed_data.items():
+            if isinstance(value, bool):
+                st.write(f"{key.replace('_', ' ').title()}: {value}")
+
+        # Recommendation
+        st.subheader("Recommendation")
+        st.write(recommendation(detailed_data))
 
 if __name__ == "__main__":
     main()
