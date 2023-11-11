@@ -174,12 +174,7 @@ def main():
     if st.button("Submit Survey"):
         survey_data = {
             "full_name": full_name,
-            "phone_number": phone_number,
-            "shortness_of_breath": shortness_of_breath,
-            "physical_activity": physical_activity,
-            "persistent_cough": persistent_cough,
-            "cough_type": cough_type,
-            "mucus_production": mucus_production,
+            
         
         }
 print(survey_data)
