@@ -56,7 +56,7 @@ def save_survey_response(data):
     relevant_data["patient_id"] = patient_id
 
     # Assuming you have a URL where you want to send the survey responses
-    post_url = "https://lungassist-user.streamlit.app/{patient_id}/submit_surve"
+    post_url = f"https://lungassist-user.streamlit.app/{patient_id}/submit_survey"
     response = requests.post(post_url, json=relevant_data)
 
     if response.status_code == 200:
@@ -67,8 +67,8 @@ def save_survey_response(data):
                 st.success(f"Survey submitted successfully! Patient ID: {patient_id}")
             else:
                 st.error("Failed to retrieve Patient ID from the response.")
-        except ValueError:
-            st.error("Error decoding JSON response: The response is not a valid JSON.")
+        except ValueError as e:
+            st.error(f"Error decoding JSON response: {e}")
             st.text(response.text)  # Display the raw response for further analysis
     else:
         st.error(f"Failed to submit survey. Status Code: {response.status_code}")
@@ -128,7 +128,7 @@ def main():
     st.header("Family History")
     family_history = st.checkbox("Is there a history of COPD or other chronic respiratory diseases in your family?")
 
-    # Lifestyle and Daily Impact
+        # Lifestyle and Daily Impact
     st.header("Lifestyle and Daily Impact")
     daily_activities = st.text_area("How do your symptoms affect your daily activities and quality of life?")
     regular_activities = st.checkbox("Are you able to perform regular activities without becoming short of breath?")
@@ -152,28 +152,46 @@ def main():
     # Allergies
     st.header("Allergies")
     respiratory_allergies = st.text_area("Do you have any allergies that might affect your respiratory system?")
-     # Save Survey Response
-    if response.status_code == 200:
-    try:
-        response_json = response.json()
-        patient_id = response_json.get('patient_id')
-        if patient_id is not None:
-            st.success(f"Survey submitted successfully! Patient ID: {patient_id}")
-        else:
-            st.error("Failed to retrieve Patient ID from the response.")
-    except ValueError as e:
-        st.error(f"Error decoding JSON response: {e}")
-        st.text(response.text)  # Display the raw response for further analysis
-else:
-    st.error(f"Failed to submit survey. Status Code: {response.status_code}")
-    st.text(response.text)  # Display the raw response for further analysis
-    if st.button("Submit Survey"):
-        response = save_survey_response(locals())
-        
 
+    # Save Survey Response
+    if st.button("Submit Survey"):
+        # Collect data from the UI
+        survey_data = {
+            "full_name": full_name,
+            "phone_number": phone_number,
+            "shortness_of_breath": shortness_of_breath,
+            "physical_activity": physical_activity,
+            "persistent_cough": persistent_cough,
+            "cough_type": cough_type,
+            "mucus_production": mucus_production,
+            "mucus_color": mucus_color,
+            "mucus_consistency": mucus_consistency,
+            "respiratory_infections": respiratory_infections,
+            "chest_symptoms": chest_symptoms,
+            "smoked_before": smoked_before,
+            "smoking_duration": smoking_duration,
+            "cigarettes_per_day": cigarettes_per_day,
+            "former_smoker": former_smoker,
+            "quit_date": quit_date,
+            "secondhand_smoke": secondhand_smoke,
+            "workplace_exposure": workplace_exposure,
+            "air_pollution": air_pollution,
+            "family_history": family_history,
+            "daily_activities": daily_activities,
+            "regular_activities": regular_activities,
+            "weight_loss_weakness": weight_loss_weakness,
+            "lung_problems": lung_problems,
+            "other_health_conditions": other_health_conditions,
+            "current_medications": current_medications,
+            "treatments_surgeries": treatments_surgeries,
+            "symptom_onset_date": symptom_onset_date,
+            "symptom_progression": symptom_progression,
+            "respiratory_allergies": respiratory_allergies
+        }
+
+        # Call the function to save the survey response
+        save_survey_response(survey_data)
 
 if __name__ == "__main__":
     main()
-
-
 
