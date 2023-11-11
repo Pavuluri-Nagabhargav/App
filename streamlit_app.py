@@ -20,7 +20,9 @@ def survey_page(container):
         st.success("Your respiratory survey has been successfully submitted. Thank you!")
 
 def main():
+    st.success("Your respiratory survey has been successfully submitted. Thank you!")
     container = st.empty()
+    st.success("Your respiratory survey has been successfully submitted. Thank you!")
     welcome_screen(container)
 
 if __name__ == "__main__":
