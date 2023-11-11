@@ -3,7 +3,7 @@ from typing import Dict, Any
 
 # Mock database to store patient details
 patients_db: Dict[str, Dict[str, Any]] = {
-    "0001": {
+    "8888888888": {
         "full_name": "Sai",
         "phone_number": "8888888888",
         "shortness_of_breath": True,
@@ -15,7 +15,7 @@ patients_db: Dict[str, Dict[str, Any]] = {
         "mucus_consistency": "Thick",
         # ... (include other survey details)
     },
-    "0002": {
+    "9999999999": {
         "full_name": "Bhargav",
         "phone_number": "9999999999",
         "shortness_of_breath": False,
@@ -87,10 +87,13 @@ def main():
         recommendation_text = recommendation(detailed_data)
         st.write(recommendation_text)
 
-        if recommendation_text == "Need further respiratory tests":
-            upload_button = st.button("Upload Test Results")
-            if upload_button:
-                upload_test_results()
+        # Display a dialogue box for recommendations
+        with st.modal("Recommendation Details"):
+            st.write(recommendation_text)
+            if recommendation_text == "Need further respiratory tests":
+                upload_button = st.button("Upload Test Results")
+                if upload_button:
+                    upload_test_results()
 
 if __name__ == "__main__":
     main()
