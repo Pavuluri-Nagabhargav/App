@@ -206,7 +206,7 @@ def main():
         
         }
 
-       try:
+        try:
             save_survey_response(survey_data)
         except Exception as e:
             logger.error(e)
