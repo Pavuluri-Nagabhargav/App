@@ -55,7 +55,7 @@ def upload_test_results():
         try:
             df = pd.read_csv(uploaded_file)
             st.success("File uploaded successfully!")
-            time.sleep(10)  # Simulating processing time
+            time.sleep(5)  # Simulating processing time
 
             # Display COPD Status
             st.subheader("COPD Status")
