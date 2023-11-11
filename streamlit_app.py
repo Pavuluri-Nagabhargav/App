@@ -63,10 +63,9 @@ def welcome_screen():
     """)
     
     if st.button("Next"):
-        st.empty()  # Clear the screen
-        main()
+        st.cache(show_survey)(clear_on_container_close=True)
 
-def main():
+def show_survey():
     st.title("Respiratory Health Survey")
 
     # Full Name and Phone Number
