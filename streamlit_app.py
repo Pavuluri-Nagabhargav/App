@@ -11,19 +11,9 @@ def generate_patient_id(phone_number):
     return hash_object.hexdigest()
 
 def save_survey_response(data):
-    phone_number = data["phone_number"]
-    if phone_number not in phone_number_to_patient_id:
-        # If the phone number is not in the dictionary, generate a new patient ID
-        patient_id = generate_patient_id(phone_number)
-        phone_number_to_patient_id[phone_number] = patient_id
-    else:
-        # If the phone number is already in the dictionary, retrieve the existing patient ID
-        patient_id = phone_number_to_patient_id[phone_number]
-
-    survey_data = {
-        "full_name": data.get("full_name", ""),
-        "phone_number": data.get("phone_number", ""),
-        "patient_id": patient_id,
+    relevant_data = {
+        "full_name": data["full_name"],
+        "phone_number": data["phone_number"],
         "shortness_of_breath": data.get("shortness_of_breath", False),
         "physical_activity": data.get("physical_activity", False),
         "persistent_cough": data.get("persistent_cough", False),
@@ -37,7 +27,7 @@ def save_survey_response(data):
         "smoking_duration": data.get("smoking_duration", 0),
         "cigarettes_per_day": data.get("cigarettes_per_day", 0),
         "former_smoker": data.get("former_smoker", False),
-        "quit_date": data.get("quit_date", None),
+        "quit_date": str(data.get("quit_date", "")),
         "secondhand_smoke": data.get("secondhand_smoke", False),
         "workplace_exposure": data.get("workplace_exposure", False),
         "air_pollution": data.get("air_pollution", False),
@@ -49,18 +39,29 @@ def save_survey_response(data):
         "other_health_conditions": data.get("other_health_conditions", ""),
         "current_medications": data.get("current_medications", ""),
         "treatments_surgeries": data.get("treatments_surgeries", ""),
-        "symptom_onset_date": data.get("symptom_onset_date", None),
+        "symptom_onset_date": str(data.get("symptom_onset_date", "")),
         "symptom_progression": data.get("symptom_progression", False),
-        "respiratory_allergies": data.get("respiratory_allergies", ""),
+        "respiratory_allergies": data.get("respiratory_allergies", "")
     }
+
+    phone_number = data["phone_number"]
+    if phone_number not in phone_number_to_patient_id:
+        # If the phone number is not in the dictionary, generate a new patient ID
+        patient_id = generate_patient_id(phone_number)
+        phone_number_to_patient_id[phone_number] = patient_id
+    else:
+        # If the phone number is already in the dictionary, retrieve the existing patient ID
+        patient_id = phone_number_to_patient_id[phone_number]
+
+    relevant_data["patient_id"] = patient_id
 
     # Assuming you have a URL where you want to send the survey responses
     post_url = "https://example.com/survey_endpoint"
-    response = requests.post(post_url, json=survey_data)
+    response = requests.post(post_url, json=relevant_data)
     return response
 
 def main():
-    st.title("Respiratory Health Survey")
+   st.title("Respiratory Health Survey")
 
     # Add background image
     background_image_url = "https://images.theconversation.com/files/485402/original/file-20220919-12-mtp5y0.jpg?ixlib=rb-1.1.0&rect=0%2C0%2C2944%2C2036&q=45&auto=format&w=926&fit=clip"
@@ -127,4 +128,20 @@ def main():
     # Medication and Treatment History
     st.header("Medication and Treatment History")
     current_medications = st.text_area("Are you currently taking any medications, including inhalers or other treatments for breathing problems?")
-    treatments_surgeries = st.text
+    treatments_surgeries = st.text_area("Have you undergone any treatments or surgeries that might affect your lungs?")
+
+    # Symptom Onset and Progression
+    st.header("Symptom Onset and Progression")
+    symptom_onset_date = st.date_input("When did you first notice your symptoms?")
+    symptom_progression = st.checkbox("Have your symptoms been getting worse over time?")
+
+    # Allergies
+    st.header("Allergies")
+    respiratory_allergies = st.text_area("Do you have any allergies that might affect your respiratory system?")
+    # Save Survey Response
+    if st.button("Submit Survey"):
+        response = save_survey_response(locals())
+        st.success(f"Survey submitted successfully! Patient ID: {response.json().get('patient_id')}")
+
+if __name__ == "__main__":
+    main()
