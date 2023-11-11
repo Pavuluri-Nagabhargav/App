@@ -87,10 +87,10 @@ def main():
             st.header("Symptom-Related Questions:")
             st.write(f"Shortness of Breath: {detailed_data.get('shortness_of_breath', 'N/A')}")
             st.write(f"Physical Activity: {detailed_data.get('physical_activity', 'N/A')}")
-            st.write(f"Persistant Cough: {detailed_data.get('persistent_cough', 'N/A')}")
+            st.write(f"Persistent Cough: {detailed_data.get('persistent_cough', 'N/A')}")
             st.write(f"Mucus Production: {detailed_data.get('mucus_production', 'N/A')}")
             st.write(f"Hereditary Issues: {detailed_data.get('H_issue', 'N/A')}")
-            st.write(f"Somking Habbit: {detailed_data.get('Smoke', 'N/A')}")
+            st.write(f"Smoking Habit: {detailed_data.get('Smoke', 'N/A')}")
 
             # ... (include other survey details)
 
