@@ -43,21 +43,46 @@ def recommendation(patient_data):
     if yes_count / total_questions > 0.5:
         return "Need further respiratory tests"
     else:
-        return "COPD Stage 2"
+        return "Consider for general medication"
 
-def upload_test_results(selected_id):
+def upload_test_results():
     st.header("Upload Test Results")
     uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
     upload_status = st.empty()
 
     if uploaded_file is not None:
+
         try:
             df = pd.read_csv(uploaded_file)
             st.success("File uploaded successfully!")
-            with st.empty():
-                st.warning("Please wait until we process the test data with our model.")
-                time.sleep(10)  # Simulating processing time
-            st.success("Test data processed successfully!")
+            st.write("Please wait until we process the data.........")
+            time.sleep(5)  # Simulating processing time
+
+            # Display COPD Status
+            st.subheader("COPD Status")
+            st.write("Results: **Stage 2**")
+
+            # Display Recommendation Box
+            st.subheader("Recommendation Details")
+            st.write("Medications:")
+            st.write("- **Bronchodilators:**")
+            st.write("  - Short-acting (albuterol) for immediate relief.")
+            st.write("  - Long-acting (tiotropium, salmeterol) for sustained relief.")
+            st.write("- **Inhaled Corticosteroids:**")
+            st.write("  - Reduce airway inflammation (fluticasone, budesonide).")
+
+            st.write("Exercise:")
+            st.write("- **Pulmonary Rehabilitation:**")
+            st.write("  - Supervised program for improved capacity and symptom relief.")
+            st.write("- **Aerobic Exercise:**")
+            st.write("  - Walking, cycling, swimming for cardiovascular health.")
+
+            st.write("Lifestyle Modifications:")
+            st.write("- **Smoking Cessation:**")
+            st.write("  - Quit smoking to slow progression.")
+            st.write("- **Avoid Irritants:**")
+            st.write("  - Minimize exposure to pollutants.")
+
         except Exception as e:
             st.error(f"Error processing CSV file: {e}")
             upload_status.empty()
@@ -110,32 +135,9 @@ def main():
         # Provide recommendation using st.expander
         recommendation_text = recommendation(detailed_data)
         st.subheader("Recommendation Details")
-        with st.expander("COPD Medications and Exercises"):
-            if "Stage 2" in recommendation_text:
-                st.subheader("Medications:")
-                st.write("- **Bronchodilators:**")
-                st.write("  - Short-acting (albuterol) for immediate relief.")
-                st.write("  - Long-acting (tiotropium, salmeterol) for sustained relief.")
-                st.write("- **Inhaled Corticosteroids:**")
-                st.write("  - Reduce airway inflammation (fluticasone, budesonide).")
-
-                st.subheader("Exercise:")
-                st.write("- **Pulmonary Rehabilitation:**")
-                st.write("  - Supervised program for improved capacity and symptom relief.")
-                st.write("- **Aerobic Exercise:**")
-                st.write("  - Walking, cycling, swimming for cardiovascular health.")
-
-                st.subheader("Lifestyle Modifications:")
-                st.write("- **Smoking Cessation:**")
-                st.write("  - Quit smoking to slow progression.")
-                st.write("- **Avoid Irritants:**")
-                st.write("  - Minimize exposure to pollutants.")
-            else:
-                st.write(recommendation_text)
-
-        # If further respiratory tests are needed, provide the option to upload test results
-        if "Need further respiratory tests" in recommendation_text:
-            upload_test_results(selected_id)
+        st.write(recommendation_text)
+        if recommendation_text == "Need further respiratory tests":
+            upload_test_results()
 
 if __name__ == "__main__":
     main()
