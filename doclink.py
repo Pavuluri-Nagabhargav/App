@@ -2,17 +2,25 @@ import streamlit as st
 import requests
 import hashlib
 
+# Dictionary to store user credentials
+user_credentials = {}
+
 # Dictionary to store the mapping between phone numbers and patient IDs
 phone_number_to_patient_id = {}
-login_credentials = {'username': 'admin', 'password': 'password'}
 
 def generate_patient_id(phone_number):
     # Use a hash function to generate a unique patient ID based on the phone number
     hash_object = hashlib.md5(phone_number.encode())
     return hash_object.hexdigest()
 
+def create_account(username, password):
+    # Store user credentials in the dictionary
+    user_credentials[username] = {'password': password}
+
 def authenticate(username, password):
-    return username == login_credentials['username'] and password == login_credentials['password']
+    # Authenticate user credentials
+    user_info = user_credentials.get(username)
+    return user_info and user_info['password'] == password
 
 def fetch_survey_data(patient_id):
     # Placeholder for fetching detailed survey data based on patient ID
@@ -25,11 +33,22 @@ def fetch_survey_data(patient_id):
 def main():
     st.title("Respiratory Health Survey")
 
+    # Account creation
+    st.sidebar.header("Create Account")
+    new_username = st.sidebar.text_input("New Username")
+    new_password = st.sidebar.text_area("New Password", type="password", key="new_password")
+
+    if st.sidebar.button("Create Account"):
+        create_account(new_username, new_password)
+        st.sidebar.success("Account created successfully! You can now log in.")
+
     # Login
+    st.sidebar.header("Login")
+    username = st.sidebar.text_input("Username")
+    password = st.sidebar.text_area("Password", type="password")
+
     login_attempted = st.sidebar.button("Login")
     if login_attempted:
-        username = st.sidebar.text_input("Username")
-        password = st.sidebar.text_area("Password", type="password")
         if authenticate(username, password):
             st.sidebar.success("Logged in successfully!")
             st.session_state.logged_in = True
