@@ -89,12 +89,19 @@ def main():
         unsafe_allow_html=True
     )
 
-    # Full Name and Phone Number
+    # Add background image
+    background_image_url = "https://images.theconversation.com/files/485402/original/file-20220919-12-mtp5y0.jpg?ixlib=rb-1.1.0&rect=0%2C0%2C2944%2C2036&q=45&auto=format&w=926&fit=clip"
+    st.markdown(
+        f'<style>body{{background-image: url("{background_image_url}");background-size: cover;}}</style>',
+        unsafe_allow_html=True
+    )
+
+  # Full Name and Phone Number
     st.header("Personal Information")
     full_name = st.text_input("Full Name:")
     phone_number = st.text_input("Phone Number:")
 
-    # Symptom-Related Questions
+  # Symptom-Related Questions
     st.header("Symptom-Related Questions")
     shortness_of_breath = st.checkbox("Have you been experiencing shortness of breath?")
     physical_activity = False  # Initialize to False
@@ -109,15 +116,14 @@ def main():
     if persistent_cough:
         cough_type = st.radio("Is it dry or productive (producing mucus)?", ["Dry", "Productive"])
         if cough_type == "Productive":
-            mucus_production = st.checkbox("Have you noticed an increase in mucus production?")
-            if mucus_production:
-                mucus_color = st.text_input("What is the color of the mucus?")
-                mucus_consistency = st.text_input("What is the consistency of the mucus?")
+          mucus_production = st.checkbox("Have you noticed an increase in mucus production?")
+          if mucus_production:
+            mucus_color = st.text_input("What is the color of the mucus?")
+            mucus_consistency = st.text_input("What is the consistency of the mucus?")
 
     respiratory_infections = st.checkbox("Are you experiencing frequent respiratory infections?")
     chest_symptoms = st.checkbox("Do you have wheezing or chest tightness?")
 
-    # History of Smoking
     st.header("History of Smoking")
     smoked_before = st.checkbox("Have you ever smoked?")
     smoking_duration = 0  # Initialize to 0
@@ -134,11 +140,7 @@ def main():
 
         secondhand_smoke = st.checkbox("Are you exposed to secondhand smoke?")
 
-    # Occupational and Environmental Exposure
-    st.header("Occupational and Environmental Exposure")
-    workplace_exposure = st.checkbox("Are you exposed to dust, chemicals, fumes, or other irritants at your workplace?")
-    air_pollution = st.checkbox("Do you live in an area with high air pollution?")
-
+    
     # Family History
     st.header("Family History")
     family_history = st.checkbox("Is there a history of COPD or other chronic respiratory diseases in your family?")
@@ -201,6 +203,7 @@ def main():
             "symptom_onset_date": symptom_onset_date,
             "symptom_progression": symptom_progression,
             "respiratory_allergies": respiratory_allergies
+        
         }
 
        try:
