@@ -153,23 +153,24 @@ def main():
     st.header("Allergies")
     respiratory_allergies = st.text_area("Do you have any allergies that might affect your respiratory system?")
      # Save Survey Response
+    if response.status_code == 200:
+    try:
+        response_json = response.json()
+        patient_id = response_json.get('patient_id')
+        if patient_id is not None:
+            st.success(f"Survey submitted successfully! Patient ID: {patient_id}")
+        else:
+            st.error("Failed to retrieve Patient ID from the response.")
+    except ValueError as e:
+        st.error(f"Error decoding JSON response: {e}")
+        st.text(response.text)  # Display the raw response for further analysis
+else:
+    st.error(f"Failed to submit survey. Status Code: {response.status_code}")
+    st.text(response.text)  # Display the raw response for further analysis
     if st.button("Submit Survey"):
         response = save_survey_response(locals())
         
-        if response.status_code == 200:
-            try:
-                response_json = response.json()
-                patient_id = response_json.get('patient_id')
-                if patient_id is not None:
-                    st.success(f"Survey submitted successfully! Patient ID: {patient_id}")
-                else:
-                    st.error("Failed to retrieve Patient ID from the response.")
-            except Exception as e:
-                st.error(f"Error decoding JSON response: {e}")
-                st.text(response.text)  # Display the raw response for further analysis
-        else:
-            st.error(f"Failed to submit survey. Status Code: {response.status_code}")
-            st.text(response.text)  # Display the raw response for further analysis
+
 
 if __name__ == "__main__":
     main()
