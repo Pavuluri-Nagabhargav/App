@@ -1,21 +1,13 @@
 import streamlit as st
 
 def welcome_screen():
-    st.title("Welcome to Lung Assist Respiratory Survey")
-    st.write("""
-This survey is designed to gather information about your respiratory health, lets get started.""")
+    if "next_button_clicked" not in st.session_state or not st.session_state.next_button_clicked:
+        st.title("Welcome to Lung Assist Respiratory Survey")
+        st.write("This survey is designed to gather information about your respiratory health.")
+        next_button = st.button("Next")
 
-    if "next_button_clicked" not in st.session_state:
-        st.session_state.next_button_clicked = False
-
-    next_button = st.button("Next")
-
-    if next_button:
-        st.session_state.next_button_clicked = True
-
-    if st.session_state.next_button_clicked:
-        st.empty()  # Clear the entire screen
-        survey_page()
+        if next_button:
+            st.session_state.next_button_clicked = True
 
 def survey_page():
     st.title("Respiratory Health Survey")
