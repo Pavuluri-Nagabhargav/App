@@ -7,12 +7,14 @@ patients_db: Dict[str, Dict[str, Any]] = {
         "full_name": "Sai",
         "phone_number": "8888888888",
         "shortness_of_breath": True,
-        "physical_activity": True,
+        "physical_activity": False,
         "persistent_cough": True,
         "cough_type": "Productive",
         "mucus_production": True,
         "mucus_color": "Yellow",
         "mucus_consistency": "Thick",
+        "H_issue": True,
+        "Smoke": False,
         # ... (include other survey details)
     },
     "0002": {
@@ -20,11 +22,15 @@ patients_db: Dict[str, Dict[str, Any]] = {
         "phone_number": "9999999999",
         "shortness_of_breath": False,
         "physical_activity": False,
-        "persistent_cough": False,
+        "persistent_cough": True,
         "cough_type": "",
-        "mucus_production": False,
+        "mucus_production": True,
         "mucus_color": "",
         "mucus_consistency": "",
+        "H_issue": False,
+        "Smoke": False,
+        
+
         # ... (include other survey details)
     },
 }
@@ -81,6 +87,11 @@ def main():
             st.header("Symptom-Related Questions:")
             st.write(f"Shortness of Breath: {detailed_data.get('shortness_of_breath', 'N/A')}")
             st.write(f"Physical Activity: {detailed_data.get('physical_activity', 'N/A')}")
+            st.write(f"Persistant Cough: {detailed_data.get('persistent_cough', 'N/A')}")
+            st.write(f"Mucus Production: {detailed_data.get('mucus_production', 'N/A')}")
+            st.write(f"Hereditary Issues: {detailed_data.get('H_issue', 'N/A')}")
+            st.write(f"Somking Habbit: {detailed_data.get('Smoke', 'N/A')}")
+
             # ... (include other survey details)
 
             # Provide recommendation using st.expander
