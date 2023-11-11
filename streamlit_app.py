@@ -1,11 +1,11 @@
 import streamlit as st
 
-
-def welcome_screen():
+def welcome_screen(container):
     st.title("Welcome to Lung Assist Respiratory Survey")
     st.write("This survey is designed to gather information about your respiratory health.")
 
     if st.button("Next"):
+        container.empty()  # Clear the container
         survey_container = st.empty()
         survey_page(survey_container)
 
@@ -19,7 +19,8 @@ def survey_page(container):
         st.success("Your respiratory survey has been successfully submitted. Thank you!")
 
 def main():
-    welcome_screen()
+    container = st.empty()
+    welcome_screen(container)
 
 if __name__ == "__main__":
     main()
