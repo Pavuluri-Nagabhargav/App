@@ -52,10 +52,11 @@ def main():
         if authenticate(username, password):
             st.sidebar.success("Logged in successfully!")
             st.session_state.logged_in = True
+            st.session_state.current_user = username  # Store the current username in session state
         else:
-            st.sidebar.error("Invalid credentials")
+            st.sidebar.error("Incorrect credentials")
 
-    if not getattr(st.session_state, 'logged_in', False):
+    if not st.session_state.get('logged_in', False):
         st.warning("Please log in to access the survey reports.")
         return
 
