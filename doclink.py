@@ -41,9 +41,11 @@ def recommendation(patient_data):
     total_questions = sum(isinstance(value, bool) for value in patient_data.values())
 
     if yes_count / total_questions > 0.5:
-        return "Need further respiratory tests"
+        recommendation_text = "Need further respiratory tests"
     else:
-        return "Consider for general medication"
+        recommendation_text = "Consider for general medication"
+
+    return recommendation_text
 
 def upload_test_results():
     st.header("Upload Test Results")
@@ -55,25 +57,38 @@ def upload_test_results():
         try:
             df = pd.read_csv(uploaded_file)
             st.success("File uploaded successfully!")
-            st.write("/nPlease wait unitl we process the data..........")
-            time.sleep(5)  # Simulating processing time
+            time.sleep(10)  # Simulating processing time
 
             # Display COPD Status
             st.subheader("COPD Status")
-            st.write("Results: Stage 2")
+            st.write("Results: **Stage 2**")
 
-            # Display Recommendation Box
-            st.subheader("Recommendation Details")
-            recommendation_text = recommendation(df)
-            recommendation_option = st.selectbox("Choose a recommendation", [""] + [recommendation_text])
+            # Display Recommendation Box as a dropdown
+            with st.expander("Recommendation Details"):
+                recommendation_text = recommendation(patients_db[selected_id])
+                st.write(recommendation_text)
 
-            if recommendation_option:
-                st.write(f"Chosen Recommendation: {recommendation_option}")
+                # Provide specific recommendations for Stage 2 COPD
+                if "Stage 2" in recommendation_text:
+                    st.subheader("Medications:")
+                    st.write("- **Bronchodilators:**")
+                    st.write("  - Short-acting (albuterol) for immediate relief.")
+                    st.write("  - Long-acting (tiotropium, salmeterol) for sustained relief.")
+                    st.write("- **Inhaled Corticosteroids:**")
+                    st.write("  - Reduce airway inflammation (fluticasone, budesonide).")
 
-                if recommendation_option == "Need further respiratory tests":
-                    st.write("Please consult with a respiratory specialist for further testing.")
-                else:
-                    st.write("Consideration for general medication. Follow up with a healthcare professional.")
+                    st.subheader("Exercise:")
+                    st.write("- **Pulmonary Rehabilitation:**")
+                    st.write("  - Supervised program for improved capacity and symptom relief.")
+                    st.write("- **Aerobic Exercise:**")
+                    st.write("  - Walking, cycling, swimming for cardiovascular health.")
+
+                    st.subheader("Lifestyle Modifications:")
+                    st.write("- **Smoking Cessation:**")
+                    st.write("  - Quit smoking to slow progression.")
+                    st.write("- **Avoid Irritants:**")
+                    st.write("  - Minimize exposure to pollutants.")
+
         except Exception as e:
             st.error(f"Error processing CSV file: {e}")
             upload_status.empty()
@@ -132,3 +147,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
