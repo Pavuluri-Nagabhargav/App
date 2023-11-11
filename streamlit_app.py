@@ -56,7 +56,7 @@ def save_survey_response(data):
     relevant_data["patient_id"] = patient_id
 
     # Assuming you have a URL where you want to send the survey responses
-    post_url = "https://lungassist-user.streamlit.app/"
+    post_url = "https://lungassist-user.streamlit.app/{patient_id}/submit_surve"
     response = requests.post(post_url, json=relevant_data)
 
     if response.status_code == 200:
