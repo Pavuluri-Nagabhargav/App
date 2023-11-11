@@ -4,7 +4,7 @@ def main():
     st.title("Respiratory Health Survey")
 
     # Display Lungs Image
-    image_url = "https://example.com/path/to/lungs_image.jpg"  # Replace with the actual URL of the image
+    image_url = "https://www.istockphoto.com/photo/3d-illustration-of-lungs-medical-concept-gm530196490-93374719"  # Replace with the actual URL of the image
     st.image(image_url, caption="Lungs Image", use_column_width=True)
 
     # Personal Information
