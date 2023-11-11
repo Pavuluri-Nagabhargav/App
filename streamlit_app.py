@@ -3,7 +3,9 @@ import streamlit as st
 def welcome_screen():
     st.title("Welcome to Lung Assist Respiratory Survey")
     st.write(
-"""This survey is designed to gather information about your respiratory health.""")
+"""This survey is designed to gather information about your respiratory health.
+        Your participation is important for research and to enhance respiratory care.
+        Please click the "Next" button to proceed to the survey.""")
 
     if "next_button_clicked" not in st.session_state:
         st.session_state.next_button_clicked = False
