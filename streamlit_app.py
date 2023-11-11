@@ -1,28 +1,25 @@
 import streamlit as st
 
-def welcome_screen(container):
+def welcome_screen():
     st.title("Welcome to Lung Assist Respiratory Survey")
     st.write("This survey is designed to gather information about your respiratory health.")
+    next_button = st.button("Next")
 
-    if st.button("Next"):
-        container.empty()  # Clear the container
-        survey_container = st.empty()
-        survey_page(survey_container)
-    
+    if next_button:
+        st.empty()  # Clear the entire screen
+        survey_page()
 
-def survey_page(container):
-    #container.empty()
+def survey_page():
     st.title("Respiratory Health Survey")
-    container.empty()  
+
     # Your survey questions and form go here...
 
     if st.button("Submit Survey"):
-        container.empty()  # Clear the container
+        st.empty()  # Clear the entire screen
         st.success("Your respiratory survey has been successfully submitted. Thank you!")
 
 def main():
-    container = st.empty()
-    welcome_screen(container)
+    welcome_screen()
 
 if __name__ == "__main__":
     main()
