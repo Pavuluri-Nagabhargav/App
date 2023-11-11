@@ -24,8 +24,10 @@ def survey_page():
 
     if st.button("Submit Survey"):
         st.session_state.next_button_clicked = False  # Reset the button state
-        #st.empty()  # Clear the entire screen
+        st.empty()  # Clear the entire screen
         st.success("Your respiratory survey has been successfully submitted. Thank you!")
+        st.empty()
+        welcome_screen()
 
 def main():
     welcome_screen()
