@@ -32,11 +32,11 @@ def main():
         password = st.sidebar.text_input("Password", type="password")
         if authenticate(username, password):
             st.sidebar.success("Logged in successfully!")
-            st.experimental_session_state.logged_in = True
+            st.session_state.logged_in = True
         else:
             st.sidebar.error("Invalid credentials")
 
-    if not hasattr(st.experimental_session_state, 'logged_in') or not st.experimental_session_state.logged_in:
+    if not getattr(st.session_state, 'logged_in', False):
         st.warning("Please log in to access the survey reports.")
         return
 
