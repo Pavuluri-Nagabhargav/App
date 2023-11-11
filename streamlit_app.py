@@ -56,7 +56,7 @@ def save_survey_response(data):
     relevant_data["patient_id"] = patient_id
 
     # Assuming you have a URL where you want to send the survey responses
-    post_url = "https://example.com/survey_endpoint"
+    post_url = "https://lungassist-user.streamlit.app/"
     response = requests.post(post_url, json=relevant_data)
     return response
 
@@ -141,7 +141,17 @@ def main():
     # Save Survey Response
     if st.button("Submit Survey"):
         response = save_survey_response(locals())
-        st.success(f"Survey submitted successfully! Patient ID: {response.json().get('patient_id')}")
+        
+        try:
+            response_json = response.json()
+            patient_id = response_json.get('patient_id')
+            if patient_id is not None:
+                st.success(f"Survey submitted successfully! Patient ID: {patient_id}")
+            else:
+                st.error("Failed to retrieve Patient ID from the response.")
+        except Exception as e:
+            st.error(f"Error decoding JSON response: {e}")
+            st.text(response.text)  # Display the raw response for further analysis
 
 if __name__ == "__main__":
     main()
