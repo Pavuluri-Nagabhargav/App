@@ -1,4 +1,30 @@
 import streamlit as st
+import requests
+import hashlib
+
+# Dictionary to store the mapping between phone numbers and patient IDs
+phone_number_to_patient_id = {}
+
+def generate_patient_id(phone_number):
+    # Use a hash function to generate a unique patient ID based on the phone number
+    hash_object = hashlib.md5(phone_number.encode())
+    return hash_object.hexdigest()
+
+def save_survey_response(data):
+    phone_number = data["phone_number"]
+    if phone_number not in phone_number_to_patient_id:
+        # If the phone number is not in the dictionary, generate a new patient ID
+        patient_id = generate_patient_id(phone_number)
+        phone_number_to_patient_id[phone_number] = patient_id
+    else:
+        # If the phone number is already in the dictionary, retrieve the existing patient ID
+        patient_id = phone_number_to_patient_id[phone_number]
+
+    data["patient_id"] = patient_id
+    # Assuming you have a URL where you want to send the survey responses
+    post_url = "https://lungassist-user.streamlit.app/"
+    response = requests.post(post_url, json=data)
+    return response
 
 def main():
     st.title("Respiratory Health Survey")
@@ -81,7 +107,8 @@ def main():
 
     # Save Survey Response
     if st.button("Submit Survey"):
-        save_survey_response(locals())
+        response = save_survey_response(locals())
+        st.success(f"Survey submitted successfully! Patient ID: {response.json().get('patient_id')}")
 
 if __name__ == "__main__":
     main()
