@@ -3,6 +3,15 @@ import streamlit as st
 def main():
     st.title("Respiratory Health Survey")
 
+    # Display Lungs Image
+    image_url = "https://example.com/path/to/lungs_image.jpg"  # Replace with the actual URL of the image
+    st.image(image_url, caption="Lungs Image", use_column_width=True)
+
+    # Personal Information
+    st.header("Personal Information")
+    full_name = st.text_input("Full Name")
+    phone_number = st.text_input("Phone Number")
+
     # Symptom-Related Questions
     st.header("Symptom-Related Questions")
     shortness_of_breath = st.checkbox("Have you been experiencing shortness of breath?")
@@ -73,5 +82,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
