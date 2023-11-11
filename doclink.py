@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 import time
 
 # Mock database to store patient details
@@ -44,10 +45,25 @@ def recommendation(patient_data):
     else:
         return "Consider for general medication"
 
-def process_data_with_model():
-    # Simulate processing time
-    st.info("Please wait until we process the data with our model...")
-    time.sleep(3)  # Simulating processing time
+def upload_test_results():
+    st.header("Upload Test Results")
+    uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+    upload_status = st.empty()
+
+    if uploaded_file is not None:
+        #upload_status.info("Please wait until the file is uploaded...")
+
+        try:
+            df = pd.read_csv(uploaded_file)
+            st.success("File uploaded successfully!")
+            time.sleep(2)  # Simulating processing time
+            st.subheader("Uploaded Data")
+            st.write(df)
+        except Exception as e:
+            st.error(f"Error reading CSV file: {e}")
+            upload_status.empty()
+    else:
+        st.warning("Please choose a CSV file.")
 
 def main():
     st.title("Lung Assist System")
@@ -96,21 +112,8 @@ def main():
         recommendation_text = recommendation(detailed_data)
         st.subheader("Recommendation Details")
         st.write(recommendation_text)
-
         if recommendation_text == "Need further respiratory tests":
-            process_data_with_model()
+            upload_test_results()
 
-            # COPD Status
-            st.header("COPD Status")
-            st.write("Stage 2 COPD")
-
-            # Medication Recommendations
-            st.header("Medications:")
-            st.subheader("Bronchodilators:")
-            st.write("- Short-acting (albuterol) for immediate relief.")
-            st.write("- Long-acting (tiotropium, salmeterol) for sustained relief.")
-            st.subheader("Inhaled Corticosteroids:")
-            st.write("- Reduce airway inflammation (fluticasone, budesonide).")
 if __name__ == "__main__":
     main()
-
