@@ -20,7 +20,7 @@ def authenticate(username, password):
 def fetch_survey_data(patient_id):
     # Placeholder for fetching detailed survey data based on patient ID
     # You need to implement this method to fetch data from your server
-    api_url = f"https://lungassist.streamlit.app/api/patient/{patient_id}"  # Replace with the actual API endpoint
+    api_url = f"https://lungassist-user.streamlit.app/{patient_id}/submit_surve"  # Replace with the actual API endpoint
     response = requests.get(api_url)
     detailed_data = response.json() if response.status_code == 200 else {}
     return detailed_data
