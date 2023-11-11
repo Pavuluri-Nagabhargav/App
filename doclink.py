@@ -55,9 +55,9 @@ def upload_test_results(selected_id):
         try:
             df = pd.read_csv(uploaded_file)
             st.success("File uploaded successfully!")
-            time.sleep(2)  # Simulating processing time
+            #time.sleep(2)  # Simulating processing time
             st.warning("Please wait until we process the test data with our model.")
-            time.sleep(10)  # Simulating processing time
+            time.sleep(5)  # Simulating processing time
         except Exception as e:
             st.error(f"Error processing CSV file: {e}")
             upload_status.empty()
