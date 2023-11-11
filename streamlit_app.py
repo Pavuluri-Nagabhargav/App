@@ -1,13 +1,16 @@
 import streamlit as st
+from PIL import Image
 
 def main():
     st.title("Respiratory Health Survey")
 
-    # Background Image
-    st.image("https://images.theconversation.com/files/485402/original/file-20220919-12-mtp5y0.jpg?ixlib=rb-1.1.0&rect=0%2C0%2C2944%2C2036&q=45&auto=format&w=926&fit=clip", use_column_width=True)
+    # Add transparent image of lungs as background
+    image_path = "https://images.theconversation.com/files/485402/original/file-20220919-12-mtp5y0.jpg?ixlib=rb-1.1.0&rect=0%2C0%2C2944%2C2036&q=45&auto=format&w=926&fit=clip"  # Replace with the actual path to the transparent lungs image
+    image = Image.open(image_path)
+    st.image(image, use_column_width=True, output_format='PNG')
 
-    # Participant Information
-    st.header("Participant Information")
+    # Full Name and Phone Number
+    st.header("Personal Information")
     full_name = st.text_input("Full Name:")
     phone_number = st.text_input("Phone Number:")
 
