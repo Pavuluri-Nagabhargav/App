@@ -56,28 +56,27 @@ def save_survey_response(data):
     relevant_data["patient_id"] = patient_id
 
     # Assuming you have a URL where you want to send the survey responses
-    post_url = f"https://lungassist-user.streamlit.app/{patient_id}/submit_survey"
+    post_url = "https://lungassist-user.streamlit.app/{patient_id}/submit_survey"
     response = requests.post(post_url, json=relevant_data)
 
-if response.status_code == 200:
-    try:
-        response_json = response.json()
-        if isinstance(response_json, dict):  # Check if the response is a JSON object
-            patient_id = response_json.get('patient_id')
-            if patient_id is not None:
-                st.success(f"Survey submitted successfully! Patient ID: {patient_id}")
+    if response.status_code == 200:
+        try:
+            response_json = response.json()
+            if isinstance(response_json, dict):  # Check if the response is a JSON object
+                patient_id = response_json.get('patient_id')
+                if patient_id is not None:
+                    st.success(f"Survey submitted successfully! Patient ID: {patient_id}")
+                else:
+                    st.error("Failed to retrieve Patient ID from the response.")
             else:
-                st.error("Failed to retrieve Patient ID from the response.")
-        else:
-            st.error("Invalid JSON response: The response is not a JSON object.")
+                st.error("Invalid JSON response: The response is not a JSON object.")
+                st.text(response.text)  # Display the raw response for further analysis
+        except ValueError as e:
+            st.error(f"Error decoding JSON response: {e}")
             st.text(response.text)  # Display the raw response for further analysis
-    except ValueError as e:
-        st.error(f"Error decoding JSON response: {e}")
+    else:
+        st.error(f"Failed to submit survey. Status Code: {response.status_code}")
         st.text(response.text)  # Display the raw response for further analysis
-else:
-    st.error(f"Failed to submit survey. Status Code: {response.status_code}")
-    st.text(response.text)  # Display the raw response for further analysis
-
 
 
 def main():
