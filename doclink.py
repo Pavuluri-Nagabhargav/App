@@ -29,7 +29,7 @@ def main():
     login_attempted = st.sidebar.button("Login")
     if login_attempted:
         username = st.sidebar.text_input("Username")
-        password = st.sidebar.text_input("Password", type="password")
+        password = st.sidebar.text_area("Password", type="password")
         if authenticate(username, password):
             st.sidebar.success("Logged in successfully!")
             st.session_state.logged_in = True
