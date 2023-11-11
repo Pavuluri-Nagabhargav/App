@@ -8,6 +8,7 @@ def welcome_screen(container):
         container.empty()  # Clear the container
         survey_container = st.empty()
         survey_page(survey_container)
+cls
 
 def survey_page(container):
     container.title("Respiratory Health Survey")
