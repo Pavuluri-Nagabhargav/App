@@ -47,7 +47,7 @@ def recommendation(patient_data):
 
     return recommendation_text
 
-def upload_test_results():
+def upload_test_results(selected_id):
     st.header("Upload Test Results")
     uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
     upload_status = st.empty()
@@ -143,8 +143,7 @@ def main():
         st.subheader("Recommendation Details")
         st.write(recommendation_text)
         if recommendation_text == "Need further respiratory tests":
-            upload_test_results()
+            upload_test_results(selected_id)
 
 if __name__ == "__main__":
     main()
-
