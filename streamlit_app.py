@@ -3,7 +3,8 @@ import streamlit as st
 def welcome_screen():
     if "display_welcome" not in st.session_state or st.session_state.display_welcome:
         st.title("Welcome to Lung Assist Respiratory Survey")
-        st.write("""This survey is designed to gather information about your respiratory health."""")
+        st.write("""
+This survey is designed to gather information about your respiratory health.""")
         next_button = st.button("Next")
 
         if next_button:
