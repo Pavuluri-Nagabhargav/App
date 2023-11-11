@@ -8,12 +8,12 @@ def welcome_screen(container):
         container.empty()  # Clear the container
         survey_container = st.empty()
         survey_page(survey_container)
-    container.empty()
+    
 
 def survey_page(container):
-    container.empty()
+    #container.empty()
     st.title("Respiratory Health Survey")
-    #container.empty()  
+    container.empty()  
     # Your survey questions and form go here...
 
     if st.button("Submit Survey"):
