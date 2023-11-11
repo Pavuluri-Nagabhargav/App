@@ -3,18 +3,28 @@ from typing import Dict, Any
 
 # Mock database to store patient details
 patients_db: Dict[str, Dict[str, Any]] = {
-    "patient1": {
+    "8888888888": {
         "full_name": "Sai",
         "phone_number": "8888888888",
         "shortness_of_breath": True,
         "physical_activity": True,
+        "persistent_cough": True,
+        "cough_type": "Productive",
+        "mucus_production": True,
+        "mucus_color": "Yellow",
+        "mucus_consistency": "Thick",
         # ... (include other survey details)
     },
-    "patient2": {
+    "9999999999": {
         "full_name": "Bhargav",
         "phone_number": "9999999999",
         "shortness_of_breath": False,
         "physical_activity": False,
+        "persistent_cough": False,
+        "cough_type": "",
+        "mucus_production": False,
+        "mucus_color": "",
+        "mucus_consistency": "",
         # ... (include other survey details)
     },
 }
@@ -22,11 +32,13 @@ patients_db: Dict[str, Dict[str, Any]] = {
 def recommendation(patient_data: Dict[str, Any]) -> str:
     # Your recommendation logic based on survey answers
     # This is a placeholder, adjust it according to your requirements
-    true_count = sum(value for key, value in patient_data.items() if isinstance(value, bool) and value)
-    if true_count >= 10:
-        return "Need further respiratory tests."
+    yes_count = sum(value for key, value in patient_data.items() if isinstance(value, bool) and value)
+    total_questions = sum(isinstance(value, bool) for value in patient_data.values())
+
+    if yes_count / total_questions > 0.5:
+        return "Need further respiratory tests"
     else:
-        return "Consider for general medication."
+        return "Consider for general medication"
 
 def main():
     st.title("Lung Assist System")
@@ -49,13 +61,18 @@ def main():
         st.warning("Please log in to access the patient reports.")
         return
 
-    # View Patient Reports
-    st.sidebar.subheader("Patient Reports")
-    selected_patient_id = st.sidebar.selectbox("Select Patient ID", list(patients_db.keys()))
-    if selected_patient_id:
+    # Display patient reports folder
+    st.header("Patient Reports Folder")
+    for patient_id, details in patients_db.items():
+        st.write(f"Patient ID: {patient_id}, Name: {details['full_name']}")
+
+    # View Survey Reports
+    st.sidebar.subheader("Survey Reports")
+    selected_id = st.sidebar.selectbox("Select Patient ID", list(patients_db.keys()))
+    if selected_id:
         # Retrieve and display detailed survey data based on the selected patient ID
-        detailed_data = patients_db[selected_patient_id]
-        st.subheader(f"Patient Report for Patient ID: {selected_patient_id}")
+        detailed_data = patients_db[selected_id]
+        st.subheader(f"Survey Report for Patient ID: {selected_id}")
         st.write(f"Name: {detailed_data.get('full_name', 'N/A')}")
         st.write(f"Phone Number: {detailed_data.get('phone_number', 'N/A')}")
 
