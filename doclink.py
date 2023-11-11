@@ -41,11 +41,9 @@ def recommendation(patient_data):
     total_questions = sum(isinstance(value, bool) for value in patient_data.values())
 
     if yes_count / total_questions > 0.5:
-        recommendation_text = "Need further respiratory tests"
+        return "Need further respiratory tests"
     else:
-        recommendation_text = "Consider for general medication"
-
-    return recommendation_text
+        return "COPD Stage 2"
 
 def upload_test_results(selected_id):
     st.header("Upload Test Results")
@@ -57,38 +55,9 @@ def upload_test_results(selected_id):
         try:
             df = pd.read_csv(uploaded_file)
             st.success("File uploaded successfully!")
+            time.sleep(2)  # Simulating processing time
+            st.warning("Please wait until we process the test data with our model.")
             time.sleep(10)  # Simulating processing time
-
-            # Display COPD Status
-            st.subheader("COPD Status")
-            st.write("Results: **Stage 2**")
-
-            # Display Recommendation Box as a dropdown
-            with st.expander("Recommendation Details"):
-                recommendation_text = recommendation(patients_db[selected_id])
-                st.write(recommendation_text)
-
-                # Provide specific recommendations for Stage 2 COPD
-                if "Stage 2" in recommendation_text:
-                    st.subheader("Medications:")
-                    st.write("- **Bronchodilators:**")
-                    st.write("  - Short-acting (albuterol) for immediate relief.")
-                    st.write("  - Long-acting (tiotropium, salmeterol) for sustained relief.")
-                    st.write("- **Inhaled Corticosteroids:**")
-                    st.write("  - Reduce airway inflammation (fluticasone, budesonide).")
-
-                    st.subheader("Exercise:")
-                    st.write("- **Pulmonary Rehabilitation:**")
-                    st.write("  - Supervised program for improved capacity and symptom relief.")
-                    st.write("- **Aerobic Exercise:**")
-                    st.write("  - Walking, cycling, swimming for cardiovascular health.")
-
-                    st.subheader("Lifestyle Modifications:")
-                    st.write("- **Smoking Cessation:**")
-                    st.write("  - Quit smoking to slow progression.")
-                    st.write("- **Avoid Irritants:**")
-                    st.write("  - Minimize exposure to pollutants.")
-
         except Exception as e:
             st.error(f"Error processing CSV file: {e}")
             upload_status.empty()
@@ -141,8 +110,31 @@ def main():
         # Provide recommendation using st.expander
         recommendation_text = recommendation(detailed_data)
         st.subheader("Recommendation Details")
-        st.write(recommendation_text)
-        if recommendation_text == "Need further respiratory tests":
+        with st.expander("COPD Medications and Exercises"):
+            if "Stage 2" in recommendation_text:
+                st.subheader("Medications:")
+                st.write("- **Bronchodilators:**")
+                st.write("  - Short-acting (albuterol) for immediate relief.")
+                st.write("  - Long-acting (tiotropium, salmeterol) for sustained relief.")
+                st.write("- **Inhaled Corticosteroids:**")
+                st.write("  - Reduce airway inflammation (fluticasone, budesonide).")
+
+                st.subheader("Exercise:")
+                st.write("- **Pulmonary Rehabilitation:**")
+                st.write("  - Supervised program for improved capacity and symptom relief.")
+                st.write("- **Aerobic Exercise:**")
+                st.write("  - Walking, cycling, swimming for cardiovascular health.")
+
+                st.subheader("Lifestyle Modifications:")
+                st.write("- **Smoking Cessation:**")
+                st.write("  - Quit smoking to slow progression.")
+                st.write("- **Avoid Irritants:**")
+                st.write("  - Minimize exposure to pollutants.")
+            else:
+                st.write(recommendation_text)
+
+        # If further respiratory tests are needed, provide the option to upload test results
+        if "Need further respiratory tests" in recommendation_text:
             upload_test_results(selected_id)
 
 if __name__ == "__main__":
