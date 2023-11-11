@@ -10,7 +10,6 @@ def welcome_screen(container):
         survey_page(survey_container)
         
 
-
 def survey_page(container):
     cls
     container.title("Respiratory Health Survey")
