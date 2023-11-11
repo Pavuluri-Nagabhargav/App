@@ -1,4 +1,3 @@
-
 import streamlit as st
 import requests
 import hashlib
@@ -12,24 +11,16 @@ def generate_patient_id(phone_number):
     hash_object = hashlib.md5(phone_number.encode())
     return hash_object.hexdigest()
 
-def save_survey_response(data):
-    phone_number = data["phone_number"]
-    if phone_number not in phone_number_to_patient_id:
-        # If the phone number is not in the dictionary, generate a new patient ID
-        patient_id = generate_patient_id(phone_number)
-        phone_number_to_patient_id[phone_number] = patient_id
-    else:
-        # If the phone number is already in the dictionary, retrieve the existing patient ID
-        patient_id = phone_number_to_patient_id[phone_number]
-
-    data["patient_id"] = patient_id
-    # Assuming you have a URL where you want to send the survey responses
-    post_url = "https://lungassist-user.streamlit.app/survey_endpoint"
-    response = requests.post(post_url, json=data)
-    return response
-
 def authenticate(username, password):
     return username == login_credentials['username'] and password == login_credentials['password']
+
+def fetch_survey_data(patient_id):
+    # Placeholder for fetching detailed survey data based on patient ID
+    # You need to implement this method to fetch data from your server
+    api_url = f"https://lungassist.streamlit.app/api/patient/{patient_id}"  # Replace with the actual API endpoint
+    response = requests.get(api_url)
+    detailed_data = response.json() if response.status_code == 200 else {}
+    return detailed_data
 
 def main():
     st.title("Respiratory Health Survey")
@@ -57,8 +48,7 @@ def main():
     selected_id = st.sidebar.selectbox("Select Patient ID", list(phone_number_to_patient_id.values()))
     if selected_id:
         # Retrieve and display detailed survey data based on the selected patient ID
-        # You need to implement a method to fetch the survey data for the selected patient ID from your server
-        detailed_data = {}  # Implement a method to fetch data based on patient ID
+        detailed_data = fetch_survey_data(selected_id)
         st.subheader(f"Survey Report for Patient ID: {selected_id}")
         st.write(f"Name: {detailed_data.get('full_name', 'N/A')}")
         st.write(f"Phone Number: {detailed_data.get('phone_number', 'N/A')}")
