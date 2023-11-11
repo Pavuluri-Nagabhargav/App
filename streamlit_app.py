@@ -22,7 +22,7 @@ def survey_page():
 
 def main():
     welcome_screen()
-    #survey_page()
+    survey_page()
 
 if __name__ == "__main__":
     main()
