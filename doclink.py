@@ -48,8 +48,17 @@ def recommendation(patient_data: Dict[str, Any]) -> str:
 
 def upload_test_results():
     st.header("Upload Test Results")
-    # Include the logic for uploading test results here
-    st.success("Test results uploaded successfully!")
+    upload_status = st.empty()
+    upload_button = st.button("Upload Test Results")
+
+    if upload_button:
+        upload_status.info("Please wait until the file is uploaded...")
+        # Simulating the upload process with a progress bar
+        progress_bar = st.progress(0)
+        for percent_complete in range(1, 101):
+            progress_bar.progress(percent_complete)
+            time.sleep(0.05)
+        upload_status.success("Test results uploaded successfully! Please wait until we process the report.")
 
 def main():
     st.title("Lung Assist System")
