@@ -3,7 +3,7 @@ import time
 
 # Mock database to store patient details
 patients_db = {
-    "8888888888": {
+    "0001": {
         "full_name": "Sai",
         "phone_number": "8888888888",
         "shortness_of_breath": True,
@@ -17,7 +17,7 @@ patients_db = {
         "Smoke": True,
         # ... (include other survey details)
     },
-    "9999999999": {
+    "0002": {
         "full_name": "Bhargav",
         "phone_number": "9999999999",
         "shortness_of_breath": False,
