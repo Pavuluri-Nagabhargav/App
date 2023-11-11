@@ -191,7 +191,7 @@ def main():
             "quit_date": quit_date,
             "secondhand_smoke": secondhand_smoke,
             #"workplace_exposure": workplace_exposure,
-            "air_pollution": air_pollution,
+            #"air_pollution": air_pollution,
             "family_history": family_history,
             "daily_activities": daily_activities,
             "regular_activities": regular_activities,
