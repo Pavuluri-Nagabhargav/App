@@ -2,7 +2,8 @@ import streamlit as st
 from PIL import Image
 
 def welcome_screen():
-    image = Image.open('"C:\Users\nagab\Downloads\image_720.png"')
+    image = Image.open(r'C:\Users\nagab\Downloads\image_720.png')
+
     st.image(image, caption='Your image caption', use_column_width=True)
     st.title("Welcome to Lung Assist Respiratory Survey")
     st.write(
