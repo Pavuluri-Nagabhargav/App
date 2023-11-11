@@ -8,14 +8,14 @@ patients_db = {
         "full_name": "Sai",
         "phone_number": "8888888888",
         "shortness_of_breath": True,
-        "physical_activity": True,
+        "physical_activity": False,
         "persistent_cough": True,
         "cough_type": "Productive",
         "mucus_production": True,
         "mucus_color": "Yellow",
         "mucus_consistency": "Thick",
         "H_issue": True,
-        "Smoke": True,
+        "Smoke": False,
         # ... (include other survey details)
     },
     "0002": {
@@ -25,11 +25,11 @@ patients_db = {
         "physical_activity": False,
         "persistent_cough": False,
         "cough_type": "",
-        "mucus_production": False,
+        "mucus_production": True,
         "mucus_color": "",
         "mucus_consistency": "",
         "H_issue": False,
-        "Smoke": False,
+        "Smoke": True,
         # ... (include other survey details)
     },
 }
@@ -108,6 +108,16 @@ def main():
 
     if not st.session_state.get('logged_in', False):
         st.warning("Please log in to access the patient reports.")
+        st.header("Overview")
+        st.write("""
+        Lung Assist System is committed to transforming respiratory healthcare, In our mission to advance respiratory healthcare, we are developing a product to facilitate early diagnosis of Chronic Obstructive Pulmonary Disease (COPD). 
+        Our primary focus is on collaborating with rural clinics, empowering them with a subscription-based service. These clinics, often lacking respiratory specialists, can leverage our KIOSK system to conduct initial patient surveys. The gathered data is securely stored in a dedicated physician's account, provided as part of the subscription.
+
+        The process involves analyzing patient symptoms to offer timely recommendations for advanced tests. This proactive approach enables patients to undergo necessary examinations without enduring prolonged waits for specialty appointments. Once recommended, patients can upload their test reports through our portal. These reports serve as inputs for our advanced machine learning and AI models, predicting the likelihood of COPD and its stages.
+
+        Our ultimate goal is to provide early intervention, saving patients valuable time and ensuring timely treatment before the disease progresses to more severe stages.
+        """)
+
         return
 
     # Display patient reports folder
