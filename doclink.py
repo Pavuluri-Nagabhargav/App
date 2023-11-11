@@ -55,6 +55,7 @@ def upload_test_results():
         try:
             df = pd.read_csv(uploaded_file)
             st.success("File uploaded successfully!")
+            st.write("please wait until we process the data")
             time.sleep(5)  # Simulating processing time
 
             # Display COPD Status
@@ -63,25 +64,16 @@ def upload_test_results():
 
             # Display Recommendation Box
             st.subheader("Recommendation Details")
-            st.write("Medications:")
-            st.write("- Bronchodilators:")
-            st.write("  - Short-acting (albuterol) for immediate relief.")
-            st.write("  - Long-acting (tiotropium, salmeterol) for sustained relief.")
-            st.write("- Inhaled Corticosteroids:")
-            st.write("  - Reduce airway inflammation (fluticasone, budesonide).")
+            recommendation_text = recommendation(df)
+            recommendation_option = st.selectbox("Choose a recommendation", [""] + [recommendation_text])
 
-            st.write("Exercise:")
-            st.write("- Pulmonary Rehabilitation:")
-            st.write("  - Supervised program for improved capacity and symptom relief.")
-            st.write("- Aerobic Exercise:")
-            st.write("  - Walking, cycling, swimming for cardiovascular health.")
+            if recommendation_option:
+                st.write(f"Chosen Recommendation: {recommendation_option}")
 
-            st.write("Lifestyle Modifications:")
-            st.write("- Smoking Cessation:")
-            st.write("  - Quit smoking to slow progression.")
-            st.write("- Avoid Irritants:")
-            st.write("  - Minimize exposure to pollutants.")
-
+                if recommendation_option == "Need further respiratory tests":
+                    st.write("Please consult with a respiratory specialist for further testing.")
+                else:
+                    st.write("Consideration for general medication. Follow up with a healthcare professional.")
         except Exception as e:
             st.error(f"Error processing CSV file: {e}")
             upload_status.empty()
