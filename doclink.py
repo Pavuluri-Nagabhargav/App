@@ -134,7 +134,7 @@ def main():
         detailed_data = fetch_survey_data(selected_id)
         st.subheader(f"Survey Report for Patient ID: {selected_id}")
         st.write(f"Name: {detailed_data.get('full_name', 'N/A')}")
-                st.write(f"Phone Number: {detailed_data.get('phone_number', 'N/A')}")
+        st.write(f"Phone Number: {detailed_data.get('phone_number', 'N/A')}")
         st.write(f"Patient ID: {selected_id}")
 
         # Display other survey details...
