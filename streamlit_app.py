@@ -58,7 +58,21 @@ def save_survey_response(data):
     # Assuming you have a URL where you want to send the survey responses
     post_url = "https://lungassist-user.streamlit.app/"
     response = requests.post(post_url, json=relevant_data)
-    return response
+
+    if response.status_code == 200:
+        try:
+            response_json = response.json()
+            patient_id = response_json.get('patient_id')
+            if patient_id is not None:
+                st.success(f"Survey submitted successfully! Patient ID: {patient_id}")
+            else:
+                st.error("Failed to retrieve Patient ID from the response.")
+        except ValueError:
+            st.error("Error decoding JSON response: The response is not a valid JSON.")
+            st.text(response.text)  # Display the raw response for further analysis
+    else:
+        st.error(f"Failed to submit survey. Status Code: {response.status_code}")
+        st.text(response.text)  # Display the raw response for further analysis
 
 def main():
     st.title("Respiratory Health Survey")
