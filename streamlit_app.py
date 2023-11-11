@@ -205,7 +205,7 @@ def main():
             "respiratory_allergies": respiratory_allergies
         
         }
-
+print(survey_data)
         try:
             save_survey_response(survey_data)
         except Exception as e:
