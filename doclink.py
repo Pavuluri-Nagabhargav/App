@@ -13,14 +13,9 @@ def generate_patient_id(phone_number):
     hash_object = hashlib.md5(phone_number.encode())
     return hash_object.hexdigest()
 
-def create_account(username, password):
-    # Store user credentials in the dictionary
-    user_credentials[username] = {'password': password}
-
 def authenticate(username, password):
-    # Authenticate user credentials
-    user_info = user_credentials.get(username)
-    return user_info and user_info['password'] == password
+    # Fixed login credentials (admin/password)
+    return username == "admin" and password == "password"
 
 def fetch_survey_data(patient_id):
     # Placeholder for fetching detailed survey data based on patient ID
@@ -32,15 +27,6 @@ def fetch_survey_data(patient_id):
 
 def main():
     st.title("Respiratory Health Survey")
-
-    # Account creation
-    st.sidebar.header("Create Account")
-    new_username = st.sidebar.text_input("New Username")
-    new_password = st.sidebar.text_input("New Password", type="password", key="new_password")
-
-    if st.sidebar.button("Create Account"):
-        create_account(new_username, new_password)
-        st.sidebar.success("Account created successfully! You can now log in.")
 
     # Login
     st.sidebar.header("Login")
