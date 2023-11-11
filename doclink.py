@@ -3,7 +3,7 @@ from typing import Dict, Any
 
 # Mock database to store patient details
 patients_db: Dict[str, Dict[str, Any]] = {
-    "8888888888": {
+    "0001": {
         "full_name": "Sai",
         "phone_number": "8888888888",
         "shortness_of_breath": True,
@@ -15,7 +15,7 @@ patients_db: Dict[str, Dict[str, Any]] = {
         "mucus_consistency": "Thick",
         # ... (include other survey details)
     },
-    "9999999999": {
+    "0002": {
         "full_name": "Bhargav",
         "phone_number": "9999999999",
         "shortness_of_breath": False,
@@ -40,6 +40,11 @@ def recommendation(patient_data: Dict[str, Any]) -> str:
     else:
         return "Consider for general medication"
 
+def upload_test_results():
+    st.header("Upload Test Results")
+    # Include the logic for uploading test results here
+    st.success("Test results uploaded successfully!")
+
 def main():
     st.title("Lung Assist System")
 
@@ -63,12 +68,7 @@ def main():
 
     # Display patient reports folder
     st.header("Patient Reports Folder")
-    for patient_id, details in patients_db.items():
-        st.write(f"Patient ID: {patient_id}, Name: {details['full_name']}")
-
-    # View Survey Reports
-    st.sidebar.subheader("Survey Reports")
-    selected_id = st.sidebar.selectbox("Select Patient ID", list(patients_db.keys()))
+    selected_id = st.selectbox("Please select a patient ID", list(patients_db.keys()))
     if selected_id:
         # Retrieve and display detailed survey data based on the selected patient ID
         detailed_data = patients_db[selected_id]
@@ -84,7 +84,13 @@ def main():
 
         # Provide recommendation
         st.header("Recommendation")
-        st.write(recommendation(detailed_data))
+        recommendation_text = recommendation(detailed_data)
+        st.write(recommendation_text)
+
+        if recommendation_text == "Need further respiratory tests":
+            upload_button = st.button("Upload Test Results")
+            if upload_button:
+                upload_test_results()
 
 if __name__ == "__main__":
     main()
