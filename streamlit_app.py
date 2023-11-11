@@ -10,8 +10,9 @@ def welcome_screen(container):
         survey_page(survey_container)
 
 def survey_page(container):
+    container.empty()
     st.title("Respiratory Health Survey")
-    container.empty()  # Clear the entire screen
+    #container.empty()  # Clear the entire screen
 
     # Your survey questions and form go here...
 
