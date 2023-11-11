@@ -4,7 +4,7 @@ def main():
     st.title("Respiratory Health Survey")
 
     # Header with Lungs Image
-    st.image("https://www.istockphoto.com/photo/3d-illustration-of-lungs-medical-concept-gm530196490-93374719", use_column_width=True)
+    st.image("https://newatlas.com/medical/lung-transplant-storage/", use_column_width=True)
     st.header("Welcome to the Respiratory Health Survey")
     st.write("Please provide your information before answering the survey questions.")
 
