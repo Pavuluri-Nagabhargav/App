@@ -8,6 +8,9 @@ user_credentials = {}
 # Dictionary to store the mapping between phone numbers and patient IDs
 phone_number_to_patient_id = {}
 
+# Global variable to store the logged-in status
+logged_in = False
+
 def generate_patient_id(phone_number):
     # Use a hash function to generate a unique patient ID based on the phone number
     hash_object = hashlib.md5(phone_number.encode())
@@ -31,6 +34,7 @@ def fetch_survey_data(patient_id):
     return detailed_data
 
 def main():
+    global logged_in  # Use a global variable for logged-in status
     st.title("Respiratory Health Survey")
 
     # Account creation
@@ -50,13 +54,12 @@ def main():
     login_attempted = st.sidebar.button("Login")
     if login_attempted:
         if authenticate(username, password):
+            logged_in = True
             st.sidebar.success("Logged in successfully!")
-            st.session_state.logged_in = True
-            st.session_state.current_user = username  # Store the current username in session state
         else:
             st.sidebar.error("Incorrect credentials")
 
-    if not st.session_state.get('logged_in', False):
+    if not logged_in:
         st.warning("Please log in to access the survey reports.")
         return
 
