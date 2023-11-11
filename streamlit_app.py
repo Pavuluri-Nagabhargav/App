@@ -59,7 +59,7 @@ def save_survey_response(data):
     post_url = f"https://lungassist-user.streamlit.app/{patient_id}/submit_survey"
     response = requests.post(post_url, json=relevant_data)
 
-    if response.status_code == 200:
+if response.status_code == 200:
     try:
         response_json = response.json()
         if isinstance(response_json, dict):  # Check if the response is a JSON object
@@ -74,9 +74,10 @@ def save_survey_response(data):
     except ValueError as e:
         st.error(f"Error decoding JSON response: {e}")
         st.text(response.text)  # Display the raw response for further analysis
-    else:
-        st.error(f"Failed to submit survey. Status Code: {response.status_code}")
-        st.text(response.text)  # Display the raw response for further analysis
+else:
+    st.error(f"Failed to submit survey. Status Code: {response.status_code}")
+    st.text(response.text)  # Display the raw response for further analysis
+
 
 
 def main():
