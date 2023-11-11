@@ -51,13 +51,13 @@ def upload_test_results(selected_id):
     upload_status = st.empty()
 
     if uploaded_file is not None:
-
         try:
             df = pd.read_csv(uploaded_file)
             st.success("File uploaded successfully!")
-            #time.sleep(2)  # Simulating processing time
-            st.warning("Please wait until we process the test data with our model.")
-            time.sleep(1)  # Simulating processing time
+            with st.empty():
+                st.warning("Please wait until we process the test data with our model.")
+                time.sleep(10)  # Simulating processing time
+            st.success("Test data processed successfully!")
         except Exception as e:
             st.error(f"Error processing CSV file: {e}")
             upload_status.empty()
