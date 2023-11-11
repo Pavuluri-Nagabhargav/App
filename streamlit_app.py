@@ -2,12 +2,12 @@ import streamlit as st
 from PIL import Image
 
 def welcome_screen():
-    try:
-        image_url = "https://raw.githubusercontent.com/Pavuluri-Nagabhargav/App/main/image_720.png"
-        st.image(image, caption='Your image caption', use_column_width=True)
-    except Exception as e:
-        st.error(f"Error opening the image: {e}")
-        return
+    #"""try:
+        #image_url = "https://raw.githubusercontent.com/Pavuluri-Nagabhargav/App/main/image_720.png"
+        #st.image(image, caption='Your image caption', use_column_width=True)
+    #except Exception as e:
+        #st.error(f"Error opening the image: {e}")
+        #return
     #image = Image.open(r'C:\Users\nagab\Downloads\image_720.png')
 
     #st.image(image, caption='Your image caption', use_column_width=True)
