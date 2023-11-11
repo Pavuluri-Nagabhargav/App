@@ -68,32 +68,29 @@ def main():
 
     # Display patient reports folder
     st.header("Patient Reports Folder")
-    selected_id = st.selectbox("Please select a patient ID", list(patients_db.keys()))
+    selected_id = st.selectbox("Please select a patient ID", [""] + list(patients_db.keys()))
     if selected_id:
-        # Retrieve and display detailed survey data based on the selected patient ID
-        detailed_data = patients_db[selected_id]
-        st.subheader(f"Survey Report for Patient ID: {selected_id}")
-        st.write(f"Name: {detailed_data.get('full_name', 'N/A')}")
-        st.write(f"Phone Number: {detailed_data.get('phone_number', 'N/A')}")
+        if selected_id != "":
+            # Retrieve and display detailed survey data based on the selected patient ID
+            detailed_data = patients_db[selected_id]
+            st.subheader(f"Survey Report for Patient ID: {selected_id}")
+            st.write(f"Name: {detailed_data.get('full_name', 'N/A')}")
+            st.write(f"Phone Number: {detailed_data.get('phone_number', 'N/A')}")
 
-        # Display other survey details...
-        st.header("Symptom-Related Questions:")
-        st.write(f"Shortness of Breath: {detailed_data.get('shortness_of_breath', 'N/A')}")
-        st.write(f"Physical Activity: {detailed_data.get('physical_activity', 'N/A')}")
-        # ... (include other survey details)
+            # Display other survey details...
+            st.header("Symptom-Related Questions:")
+            st.write(f"Shortness of Breath: {detailed_data.get('shortness_of_breath', 'N/A')}")
+            st.write(f"Physical Activity: {detailed_data.get('physical_activity', 'N/A')}")
+            # ... (include other survey details)
 
-        # Provide recommendation
-        st.header("Recommendation")
-        recommendation_text = recommendation(detailed_data)
-        st.write(recommendation_text)
-
-        # Display a dialogue box for recommendations
-        with st.modal("Recommendation Details"):
-            st.write(recommendation_text)
-            if recommendation_text == "Need further respiratory tests":
-                upload_button = st.button("Upload Test Results")
-                if upload_button:
-                    upload_test_results()
+            # Provide recommendation using st.expander
+            with st.expander("Recommendation Details"):
+                recommendation_text = recommendation(detailed_data)
+                st.write(recommendation_text)
+                if recommendation_text == "Need further respiratory tests":
+                    upload_button = st.button("Upload Test Results")
+                    if upload_button:
+                        upload_test_results()
 
 if __name__ == "__main__":
     main()
