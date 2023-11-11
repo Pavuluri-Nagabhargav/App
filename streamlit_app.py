@@ -60,19 +60,24 @@ def save_survey_response(data):
     response = requests.post(post_url, json=relevant_data)
 
     if response.status_code == 200:
-        try:
-            response_json = response.json()
+    try:
+        response_json = response.json()
+        if isinstance(response_json, dict):  # Check if the response is a JSON object
             patient_id = response_json.get('patient_id')
             if patient_id is not None:
                 st.success(f"Survey submitted successfully! Patient ID: {patient_id}")
             else:
                 st.error("Failed to retrieve Patient ID from the response.")
-        except ValueError as e:
-            st.error(f"Error decoding JSON response: {e}")
+        else:
+            st.error("Invalid JSON response: The response is not a JSON object.")
             st.text(response.text)  # Display the raw response for further analysis
-    else:
-        st.error(f"Failed to submit survey. Status Code: {response.status_code}")
-        st.text(response.text)
+    except ValueError as e:
+        st.error(f"Error decoding JSON response: {e}")
+        st.text(response.text)  # Display the raw response for further analysis
+else:
+    st.error(f"Failed to submit survey. Status Code: {response.status_code}")
+    st.text(response.text)  # Display the raw response for further analysis
+
 
 def main():
     st.title("Respiratory Health Survey")
