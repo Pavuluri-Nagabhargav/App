@@ -61,7 +61,7 @@ def save_survey_response(data):
     return response
 
 def main():
-     st.title("Respiratory Health Survey")
+    st.title("Respiratory Health Survey")
 
     # Add background image
     background_image_url = "https://images.theconversation.com/files/485402/original/file-20220919-12-mtp5y0.jpg?ixlib=rb-1.1.0&rect=0%2C0%2C2944%2C2036&q=45&auto=format&w=926&fit=clip"
@@ -69,7 +69,6 @@ def main():
         f'<style>body{{background-image: url("{background_image_url}");background-size: cover;}}</style>',
         unsafe_allow_html=True
     )
-   
 
     # Full Name and Phone Number
     st.header("Personal Information")
