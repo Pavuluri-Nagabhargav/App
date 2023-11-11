@@ -1,5 +1,6 @@
 import streamlit as st
-import time  # Import the time module for the sleep function
+import pandas as pd
+import time
 
 # Mock database to store patient details
 patients_db = {
@@ -22,13 +23,13 @@ patients_db = {
         "phone_number": "9999999999",
         "shortness_of_breath": False,
         "physical_activity": False,
-        "persistent_cough": True,
+        "persistent_cough": False,
         "cough_type": "",
         "mucus_production": False,
         "mucus_color": "",
         "mucus_consistency": "",
         "H_issue": False,
-        "Smoke": True,
+        "Smoke": False,
         # ... (include other survey details)
     },
 }
@@ -46,17 +47,23 @@ def recommendation(patient_data):
 
 def upload_test_results():
     st.header("Upload Test Results")
+    uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
     upload_status = st.empty()
-    upload_button = st.button("Upload Test Results")
 
-    if upload_button:
+    if uploaded_file is not None:
         upload_status.info("Please wait until the file is uploaded...")
-        # Simulating the upload process with a progress bar
-        progress_bar = st.progress(0)
-        for percent_complete in range(1, 101):
-            progress_bar.progress(percent_complete)
-            time.sleep(0.05)
-        upload_status.success("Test results uploaded successfully! Please wait until we process the report.")
+
+        try:
+            df = pd.read_csv(uploaded_file)
+            st.success("File uploaded successfully!")
+            time.sleep(1)  # Simulating processing time
+            st.subheader("Uploaded Data")
+            st.write(df)
+        except Exception as e:
+            st.error(f"Error reading CSV file: {e}")
+            upload_status.empty()
+    else:
+        st.warning("Please choose a CSV file.")
 
 def main():
     st.title("Lung Assist System")
