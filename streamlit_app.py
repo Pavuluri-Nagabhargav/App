@@ -72,7 +72,7 @@ def save_survey_response(data):
                 st.error("Invalid JSON response: The response is not a JSON object.")
                 st.text(response.text)  # Display the raw response for further analysis
         except ValueError as e:
-            st.error(f"Error decoding JSON response: {e}")
+            #st.error(f"Error decoding JSON response: {e}")
             st.text(response.text)  # Display the raw response for further analysis
     else:
         st.error(f"Failed to submit survey. Status Code: {response.status_code}")
