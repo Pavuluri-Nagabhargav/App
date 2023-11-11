@@ -88,9 +88,13 @@ def main():
             st.write(f"Shortness of Breath: {detailed_data.get('shortness_of_breath', 'N/A')}")
             st.write(f"Physical Activity: {detailed_data.get('physical_activity', 'N/A')}")
             st.write(f"Persistent Cough: {detailed_data.get('persistent_cough', 'N/A')}")
+            st.write(f"Cough Type: {detailed_data.get('cough_type', 'N/A')}")
             st.write(f"Mucus Production: {detailed_data.get('mucus_production', 'N/A')}")
+            st.write(f"Mucus Color: {detailed_data.get('mucus_color', 'N/A')}")
+            st.write(f"Mucus Consistency: {detailed_data.get('mucus_consistency', 'N/A')}")
             st.write(f"Hereditary Issues: {detailed_data.get('H_issue', 'N/A')}")
             st.write(f"Smoking Habit: {detailed_data.get('Smoke', 'N/A')}")
+
 
             # ... (include other survey details)
 
