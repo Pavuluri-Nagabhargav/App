@@ -57,7 +57,7 @@ def upload_test_results(selected_id):
             st.success("File uploaded successfully!")
             #time.sleep(2)  # Simulating processing time
             st.warning("Please wait until we process the test data with our model.")
-            time.sleep(5)  # Simulating processing time
+            time.sleep(1)  # Simulating processing time
         except Exception as e:
             st.error(f"Error processing CSV file: {e}")
             upload_status.empty()
